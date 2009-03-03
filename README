@@ -1,0 +1,22 @@
+SAX processing xml with libxml2 is awesome!
+
+But man, it sucks hard.
+
+This is my abstraction of that process that allows me to build an array of objects (your objects need to subclass XMLParserObject), but not loose much of the power and flexibility of the sax process.
+
+How SAX works
+=============
+
+This is probably a very flawed explanation, but here it is:
+
+Instead of building a tree of nodes and all that trash we don't need, the sax process fires events as it encounters xml tags. You get alerted when you reach the beginning, end, and all the middle stuff in a tag. And it does all this while the xml is being streamed in from a url. All you gotta do is remember where you are (like which tag you are on) to determine what you want to do. 
+
+This sort of process is usually really hard to manage. But I keep an array hierarchy of tags so we know where we are and I make it easy to choose which tags you want to store the content (characters) of without having to do a ton of case/if statements and all that.
+
+TODO
+====
+
+* Tests!
+* Stream from file (not just url)
+* More callbacks and helpful methods
+* Namespaces and prefixes
