@@ -1,3 +1,7 @@
+NOTE: right now, this is not quite as fast as I would like. It's quick enough to play with, but I plan on optimizing it more. I am creating strings and arrays and the like in hopes of making things easier, but it seems to be slowing me down a bit.
+
+
+
 SAX processing with libxml2 is awesome!
 
 But man, it sucks hard.
