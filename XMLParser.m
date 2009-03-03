@@ -122,7 +122,7 @@ static xmlSAXHandler simpleSAXHandlerStruct;
 	
 	[self.parsedObjects removeAllObjects];
 	
-	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(parserDidEndParsingData:)] && [parsedObjects count] > 0) {
+	if (self.delegate != nil && [self.delegate respondsToSelector:@selector(parserDidEndParsingData:)]) {
 		[self.delegate parserDidEndParsingData:self];
 	}
 }
@@ -136,6 +136,7 @@ static xmlSAXHandler simpleSAXHandlerStruct;
 		if (self.delegate != nil && [self.delegate respondsToSelector:@selector(parser:didParseObjects:)]) {
 			[self.delegate parser:self didParseObjects:parsedObjects];
 		}
+		[self.parsedObjects removeAllObjects];
 	}
 }
 
@@ -170,12 +171,12 @@ static xmlSAXHandler simpleSAXHandlerStruct;
 	xmlParseChunk(context, NULL, 0, 1); // Passing 1 means your done
 	[self performSelectorOnMainThread:@selector(parseEnded) withObject:nil waitUntilDone:NO];
 	done = YES; // End the do/run loop
-	NSLog(@"Done...");
+	// NSLog(@"Done...");
 }
 
 #pragma mark Parsing support methods
 
-static const NSUInteger kAutoreleasePoolPurgeFrequency = 10;
+static const NSUInteger kAutoreleasePoolPurgeFrequency = 20;
 
 // send the object back to be processed
 - (void)finishedCurrentObject {
@@ -277,12 +278,12 @@ static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *
 	 forget about namespaces and prefixes for now 
 	 */
 	
-//	for ( int indexNamespace = 0; indexNamespace < nb_namespaces; ++indexNamespace )
-//	{
-//		const xmlChar *prefix = namespaces[indexNamespace*2];
-//		const xmlChar *nsURI = namespaces[indexNamespace*2+1];
-//		printf( "  namespace: name='%s' uri=(%p)'%s'\n", prefix, nsURI, nsURI );
-//	}
+	//	for ( int indexNamespace = 0; indexNamespace < nb_namespaces; ++indexNamespace )
+	//	{
+	//		const xmlChar *prefix = namespaces[indexNamespace*2];
+	//		const xmlChar *nsURI = namespaces[indexNamespace*2+1];
+	//		printf( "  namespace: name='%s' uri=(%p)'%s'\n", prefix, nsURI, nsURI );
+	//	}
 	
 	// build our attributes dictionary so it's more usable that the xmlChar trash we get
 	NSMutableDictionary *attributesDict = [NSMutableDictionary dictionaryWithCapacity:nb_attributes];
@@ -293,8 +294,8 @@ static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *
 	{
 		
 		const xmlChar *localname = attributes[index];
-//		const xmlChar *prefix = attributes[index+1];
-//		const xmlChar *nsURI = attributes[index+2];
+		//		const xmlChar *prefix = attributes[index+1];
+		//		const xmlChar *nsURI = attributes[index+2];
 		const xmlChar *valueBegin = attributes[index+3];
 		const xmlChar *valueEnd = attributes[index+4];
 		
